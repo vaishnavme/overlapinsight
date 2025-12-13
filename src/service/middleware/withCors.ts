@@ -6,7 +6,7 @@ type NextApiHandler = (
   res: NextApiResponse
 ) => void | Promise<void>;
 
-export const withCors = (handler: NextApiHandler) => {
+const withCors = (handler: NextApiHandler) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const allowedOrigin = config.FE_URL;
 
