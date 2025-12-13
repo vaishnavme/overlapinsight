@@ -5,3 +5,7 @@ export const app_themes = {
   dark: "dark",
   system: "system",
 };
+
+export const app_paths = {
+  home: "/",
+};
