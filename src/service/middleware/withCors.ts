@@ -14,7 +14,10 @@ const withCors = (handler: NextApiHandler) => {
 
     if (!origin || !origin.startsWith(allowedOrigin)) {
       res.status(403).json({
-        error: "CORS policy: Origin not allowed",
+        success: false,
+        error: {
+          message: "CORS policy: Origin not allowed",
+        },
       });
       return;
     }

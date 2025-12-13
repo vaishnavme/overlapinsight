@@ -21,7 +21,6 @@ const withHttpMethod = (
         success: false,
         error: {
           message: `Method ${req.method} Not Allowed`,
-          allowedMethods,
         },
       });
     }
