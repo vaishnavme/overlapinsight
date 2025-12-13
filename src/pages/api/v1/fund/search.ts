@@ -14,7 +14,9 @@ const handler = (req: NextApiRequest, resp: NextApiResponse) => {
 
     resp.status(200).send({
       success: true,
-      data: funds,
+      data: {
+        funds,
+      },
     });
   } catch {
     resp.status(500).send({

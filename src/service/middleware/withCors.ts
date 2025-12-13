@@ -8,11 +8,11 @@ type NextApiHandler = (
 
 const withCors = (handler: NextApiHandler) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    const allowedOrigin = config.FE_URL;
+    const allowedOrigin = config.FE_URL as string;
 
-    const origin = req.headers.origin;
+    const origin = req.headers.referer;
 
-    if (!origin || origin !== allowedOrigin) {
+    if (!origin || !origin.startsWith(allowedOrigin)) {
       res.status(403).json({
         error: "CORS policy: Origin not allowed",
       });

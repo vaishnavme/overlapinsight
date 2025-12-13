@@ -329,13 +329,15 @@ class MutualFundParser {
   search(query: string): any[] {
     if (!query) return [];
 
-    const q = query.toLowerCase();
+    const queryWords = query.toLowerCase().split(/\s+/).filter(Boolean);
 
     const results = this.allFunds.filter((f) => {
-      return (
-        f.tradingSymbol?.toLowerCase().includes(q) ||
-        f.fund?.toLowerCase().includes(q)
-      );
+      const symbolLower = f.tradingSymbol?.toLowerCase() || "";
+      const fundLower = f.fund?.toLowerCase() || "";
+      const combinedText = `${symbolLower} ${fundLower}`;
+
+      // Check if all query words match in the combined text
+      return queryWords.every((word) => combinedText.includes(word));
     });
 
     return results.slice(0, 15);
