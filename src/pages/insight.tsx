@@ -5,6 +5,7 @@ import { Text } from "@/components/ui/text";
 import { app_name, app_paths } from "@/lib/constants";
 import { ShortFundData } from "@/lib/global.types";
 import fundService from "@/service/fund.service";
+import OverlapInfo from "@/components/insight/overlap-info";
 
 interface InsightProps {
   fundA?: ShortFundData;
@@ -25,6 +26,7 @@ const Insight = (props: InsightProps) => {
           <FundOverview fund={fundB!} />
         </div>
         <div className="w-full grid grid-cols-2 gap-4">
+          <OverlapInfo fundA={fundA!} fundB={fundB!} />
           <NavHistory fundA={fundA!} fundB={fundB!} />
         </div>
       </div>
@@ -54,6 +56,9 @@ export async function getServerSideProps({
 
   fundA.navHistory = await fundService.getNavHistoryByISIN(query.fundA);
   fundB.navHistory = await fundService.getNavHistoryByISIN(query.fundB);
+
+  fundA.holdings = await fundService.getFundHoldingsByISIN(query.fundA);
+  fundB.holdings = await fundService.getFundHoldingsByISIN(query.fundB);
 
   return {
     props: { fundA: fundA || null, fundB: fundB || null },

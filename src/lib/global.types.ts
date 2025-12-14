@@ -21,4 +21,7 @@ export interface ShortFundData {
   aum?: number;
   isin?: string;
   navHistory?: Array<{ timestamp: number; nav: number }>;
+  holdings?: Array<
+    [string, string, string, string, number, number, number, string]
+  >;
 }

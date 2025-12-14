@@ -25,11 +25,11 @@ const getChartConfig = (
   const chartConfig = {
     fundA: {
       label: fundA.fund,
-      color: fundA.hex_code,
+      color: "var(--chart-1)",
     },
     fundB: {
       label: fundB.fund,
-      color: fundB.hex_code,
+      color: "var(--chart-2)",
     },
   } satisfies ChartConfig;
 
