@@ -78,6 +78,15 @@ const fundService = {
       throw error;
     }
   },
+
+  getFundInsightByISIN: async (isin: string) => {
+    const fundOverviewData = fundService.getByISIN(isin);
+
+    if (!fundOverviewData) return null;
+
+    const fund = fundService.shortDTO(fundOverviewData);
+    return fund;
+  },
 };
 
 export default fundService;

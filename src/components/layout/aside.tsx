@@ -18,7 +18,8 @@ const Aside = () => {
     fundB: null,
   });
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!selectedFunds.fundA || !selectedFunds.fundB) return;
 
     router.push({
@@ -42,7 +43,7 @@ const Aside = () => {
         </Text>
       </div>
 
-      <div className="mx-auto w-full max-w-96 space-y-6">
+      <form onSubmit={onSubmit} className="mx-auto w-full max-w-96 space-y-6">
         <div className="space-y-4">
           <SearchMutualFunds
             label="Fund A"
@@ -59,16 +60,11 @@ const Aside = () => {
             }
           />
         </div>
-        <Button
-          size="lg"
-          variant="primary"
-          className="w-full"
-          onClick={onSubmit}
-        >
+        <Button size="lg" type="submit" variant="primary" className="w-full">
           <SearchIcon />
           Find overlap
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

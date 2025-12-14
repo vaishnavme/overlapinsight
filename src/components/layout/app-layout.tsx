@@ -14,7 +14,7 @@ const AppLayout = (props: AppLayoutProps) => {
       <Navbar />
       <div>
         <Aside />
-        <main className="lg:ml-128 p-4">
+        <main className="lg:ml-128">
           <ScrollArea
             scrollFade
             className="h-full max-h-[calc(100vh-48px)] overflow-y-auto"
