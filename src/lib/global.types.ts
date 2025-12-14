@@ -20,4 +20,5 @@ export interface ShortFundData {
   dividendInterval?: string;
   aum?: number;
   isin?: string;
+  navHistory?: Array<{ timestamp: number; nav: number }>;
 }

@@ -48,6 +48,9 @@ export async function getServerSideProps({
     redirect(app_paths.home);
   }
 
+  fundA.navHistory = await fundService.getNavHistoryByISIN(query.fundA);
+  fundB.navHistory = await fundService.getNavHistoryByISIN(query.fundB);
+
   return {
     props: { fundA: fundA || null, fundB: fundB || null },
   };
