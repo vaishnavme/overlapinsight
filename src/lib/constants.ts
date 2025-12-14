@@ -8,4 +8,5 @@ export const app_themes = {
 
 export const app_paths = {
   home: "/",
+  insight: "/insight",
 };
