@@ -6,29 +6,44 @@ import { app_name, app_paths } from "@/lib/constants";
 import { ShortFundData } from "@/lib/global.types";
 import fundService from "@/service/fund.service";
 import OverlapInfo from "@/components/insight/overlap-info";
+import HoldingsInfo from "@/components/insight/holdings-info";
+import HoldingAnalyzer from "@/components/insight/holding-analyzer";
 
 interface InsightProps {
-  fundA?: ShortFundData;
-  fundB?: ShortFundData;
+  fundA: ShortFundData;
+  fundB: ShortFundData;
 }
 
 const Insight = (props: InsightProps) => {
   const { fundA, fundB } = props;
 
+  const holdingAnalyzer = new HoldingAnalyzer(fundA, fundB);
+  const holdingsAnalysis = holdingAnalyzer.analyzeOverlap();
+
   return (
-    <div className="bg-muted w-full px-10 py-6 mx-auto space-y-4">
+    <div className="bg-muted w-full px-4 md:px-10 py-6 mx-auto space-y-4">
       <Text lg className="font-serif" medium>
         {app_name}
       </Text>
       <div className="space-y-8">
         <div>
-          <FundOverview fund={fundA!} />
-          <FundOverview fund={fundB!} />
+          <FundOverview fund={fundA} />
+          <FundOverview fund={fundB} />
         </div>
-        <div className="w-full grid grid-cols-2 gap-4">
-          <OverlapInfo fundA={fundA!} fundB={fundB!} />
-          <NavHistory fundA={fundA!} fundB={fundB!} />
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <OverlapInfo fundA={fundA} fundB={fundB} />
+          <NavHistory fundA={fundA} fundB={fundB} />
         </div>
+        <HoldingsInfo
+          fundName={fundA.fund}
+          holdings={holdingsAnalysis.holdingsA}
+          sector={holdingsAnalysis.sectorA}
+        />
+        <HoldingsInfo
+          fundName={fundB.fund}
+          holdings={holdingsAnalysis.holdingsB}
+          sector={holdingsAnalysis.sectorB}
+        />
       </div>
     </div>
   );
