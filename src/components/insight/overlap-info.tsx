@@ -27,11 +27,11 @@ const getChartConfig = (fundAName: string, fundBName: string): ChartConfig => ({
     color: "var(--color-blue-400)",
   },
   fundA: {
-    label: fundAName,
+    label: `Unique holding's ${fundAName}`,
     color: "var(--color-blue-500)",
   },
   fundB: {
-    label: fundBName,
+    label: `Unique holding's ${fundBName}`,
     color: "var(--color-blue-700)",
   },
 });

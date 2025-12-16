@@ -61,10 +61,13 @@ class HoldingAnalyzer {
     const holdingACount = Object.keys(holdingsA).length;
     const holdingBCount = Object.keys(holdingsB).length;
 
-    const commonHoldings = Object.keys(holdingsA).filter((key) =>
-      holdingsB.hasOwnProperty(key)
-    );
-    const commonHoldingCount = commonHoldings.length;
+    let commonHoldingCount = 0;
+
+    for (const key of Object.keys(holdingsA)) {
+      if (holdingsB.hasOwnProperty(key)) {
+        commonHoldingCount++;
+      }
+    }
 
     const uniqueHoldingsA = holdingACount - commonHoldingCount;
     const uniqueHoldingsB = holdingBCount - commonHoldingCount;
