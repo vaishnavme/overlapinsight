@@ -46,30 +46,38 @@ const Home = () => (
           </Text>
 
           <div className="grid gap-4">
-            <div className="flex flex-col space-y-1">
-              <Text medium>🎯 True Diversification</Text>
+            <div className="flex flex-col">
+              <Text sm medium>
+                True Diversification
+              </Text>
               <Text sm className="text-muted-foreground">
                 Identify overlapping stocks to avoid the illusion of
                 diversification.
               </Text>
             </div>
 
-            <div className="flex flex-col space-y-1">
-              <Text medium>💰 Cost Optimization</Text>
+            <div className="flex flex-col">
+              <Text sm medium>
+                Cost Optimization
+              </Text>
               <Text sm className="text-muted-foreground">
                 Eliminate redundant funds and reduce unnecessary expense ratios.
               </Text>
             </div>
 
-            <div className="flex flex-col space-y-1">
-              <Text medium>⚡ Risk Management</Text>
+            <div className="flex flex-col">
+              <Text sm medium>
+                Risk Management
+              </Text>
               <Text sm className="text-muted-foreground">
                 Reduce concentration risk from common stock holdings.
               </Text>
             </div>
 
-            <div className="flex flex-col space-y-1">
-              <Text medium>📊 Smart Analysis</Text>
+            <div className="flex flex-col">
+              <Text sm medium>
+                Smart Analysis
+              </Text>
               <Text sm className="text-muted-foreground">
                 Get instant insights that would take hours to analyze manually.
               </Text>
