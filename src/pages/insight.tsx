@@ -8,6 +8,7 @@ import fundService from "@/service/fund.service";
 import OverlapInfo from "@/components/insight/overlap-info";
 import HoldingsInfo from "@/components/insight/holdings-info";
 import HoldingAnalyzer from "@/components/insight/holding-analyzer";
+import Link from "next/link";
 
 interface InsightProps {
   fundA: ShortFundData;
@@ -48,6 +49,19 @@ const Insight = (props: InsightProps) => {
           holdings={holdingsAnalysis.holdingsB}
           sector={holdingsAnalysis.sectorB}
         />
+
+        <div className="pt-5 flex flex-col gap-4 sm:flex-row items-start justify-between">
+          <Link href={process.env.NEXT_PUBLIC_FE_URL!}>
+            <Text xs medium className="font-mono text-muted-foreground mb-2">
+              overlapinsight.com
+            </Text>
+          </Link>
+          <Text xs className="font-mono text-muted-foreground max-w-sm">
+            This data is for informational purposes only. Please cross-check
+            with official fund disclosures for the most accurate and up-to-date
+            holdings.
+          </Text>
+        </div>
       </div>
     </div>
   );
