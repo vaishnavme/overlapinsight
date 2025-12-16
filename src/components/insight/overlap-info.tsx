@@ -1,4 +1,4 @@
-import { Pie, PieChart } from "recharts";
+import { Label, Pie, PieChart } from "recharts";
 import {
   ChartContainer,
   ChartLegend,
@@ -8,6 +8,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Text } from "../ui/text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { CircleQuestionMarkIcon, InfoIcon } from "lucide-react";
 
 interface OverlapInfoProps {
   fundAName: string;
@@ -17,6 +19,7 @@ interface OverlapInfoProps {
     holdingBCount: number;
     uniqueHoldingsA: number;
     uniqueHoldingsB: number;
+    totalOverlapPercentage: number;
     commonHoldingCount: number;
   };
 }
@@ -27,11 +30,11 @@ const getChartConfig = (fundAName: string, fundBName: string): ChartConfig => ({
     color: "var(--color-blue-400)",
   },
   fundA: {
-    label: fundAName,
+    label: `Unique holding's ${fundAName}`,
     color: "var(--color-blue-500)",
   },
   fundB: {
-    label: fundBName,
+    label: `Unique holding's ${fundBName}`,
     color: "var(--color-blue-700)",
   },
 });
@@ -61,13 +64,27 @@ const OverlapInfo = (props: OverlapInfoProps) => {
 
   return (
     <div className="w-full">
-      <Text
-        xs
-        medium
-        className="font-mono uppercase tracking-wider text-muted-foreground"
-      >
-        Holding&apos;s Overlap
-      </Text>
+      <div className="flex items-center justify-between">
+        <Text
+          xs
+          medium
+          className="font-mono uppercase tracking-wider text-muted-foreground"
+        >
+          Holding&apos;s Overlap
+        </Text>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <InfoIcon className="size-4" />
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            <Text xs>
+              Overlap has been calculated based on common weights of stocks
+              between the funds, and not on the number of common stocks.
+            </Text>
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
       <ChartContainer config={chartConfig} className="max-h-64">
         <PieChart>
@@ -102,7 +119,37 @@ const OverlapInfo = (props: OverlapInfoProps) => {
             innerRadius={60}
             outerRadius={80}
             paddingAngle={5}
-          />
+          >
+            <Label
+              content={({ viewBox }) => {
+                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  return (
+                    <text
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                    >
+                      <tspan
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        className="fill-foreground text-xl font-mono font-semibold"
+                      >
+                        {holdingStats.totalOverlapPercentage.toFixed(2)}%
+                      </tspan>
+                      <tspan
+                        x={viewBox.cx}
+                        y={(viewBox.cy || 0) + 24}
+                        className="fill-muted-foreground"
+                      >
+                        Overlap
+                      </tspan>
+                    </text>
+                  );
+                }
+              }}
+            />
+          </Pie>
           <ChartLegend
             content={<ChartLegendContent />}
             className="flex absolute left-0 bottom-0 top-0 flex-col items-start gap-2"

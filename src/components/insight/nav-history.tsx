@@ -11,8 +11,6 @@ import {
 import { ShortFundData } from "@/lib/global.types";
 import { Text } from "../ui/text";
 
-export const description = "An area chart with NAV history";
-
 interface NavHistoryProps {
   fundA: ShortFundData;
   fundB: ShortFundData;
@@ -36,72 +34,65 @@ const getChartConfig = (
   return chartConfig;
 };
 
+const getNavHistoryData = (navHistory: ShortFundData["navHistory"]) => {
+  const yearMap = new Map<
+    string,
+    { year: string; nav?: number; timestamp: number }
+  >();
+
+  navHistory?.forEach((item) => {
+    const timestamp = item[0];
+    const nav = item[1];
+    const date = new Date(timestamp * 1000);
+    const year = date.getFullYear().toString();
+
+    if (!yearMap.has(year)) {
+      yearMap.set(year, { year, nav, timestamp });
+    }
+    const entry = yearMap.get(year)!;
+
+    if (!entry?.timestamp || timestamp > entry?.timestamp) {
+      entry.timestamp = timestamp;
+    }
+    yearMap.set(year, entry);
+  });
+
+  return Array.from(yearMap.values()).sort(
+    (a, b) => parseInt(a.year) - parseInt(b.year)
+  );
+};
+
 const NavHistory = (props: NavHistoryProps) => {
   const { fundA, fundB } = props;
   const chartConfig = getChartConfig(fundA, fundB);
 
-  // Transform the data from array format to object format, grouped by year
   const chartData = useMemo(() => {
-    const fundAHistory = fundA.navHistory || [];
-    const fundBHistory = fundB.navHistory || [];
-
-    // Create a map grouped by year
-    const yearMap = new Map<
+    const dataMap = new Map<
       string,
-      { year: string; fundA?: number; fundB?: number; timestamp?: number }
+      { year: string; fundA?: number; fundB?: number }
     >();
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    fundAHistory.forEach(([timestamp, nav]) => {
-      const date = new Date(timestamp * 1000);
-      const year = date.getFullYear().toString();
+    const navHistoryA = getNavHistoryData(fundA.navHistory);
+    const navHistoryB = getNavHistoryData(fundB.navHistory);
 
-      if (!yearMap.has(year)) {
-        yearMap.set(year, { year, timestamp });
-      }
-      const entry = yearMap.get(year)!;
-      // Update if this is a later date in the same year
-      if (!entry.timestamp || timestamp > entry.timestamp) {
-        entry.fundA = nav;
-        entry.timestamp = timestamp;
+    navHistoryA.forEach((item) => {
+      dataMap.set(item.year, { year: item.year, fundA: item.nav });
+    });
+
+    navHistoryB.forEach((item) => {
+      const existing = dataMap.get(item.year);
+      if (existing) {
+        existing.fundB = item.nav;
+        dataMap.set(item.year, existing);
+      } else {
+        dataMap.set(item.year, { year: item.year, fundB: item.nav });
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    fundBHistory.forEach(([timestamp, nav]) => {
-      const date = new Date(timestamp * 1000);
-      const year = date.getFullYear().toString();
-
-      if (!yearMap.has(year)) {
-        yearMap.set(year, { year, timestamp });
-      }
-      const entry = yearMap.get(year)!;
-      // Update if this is a later date in the same year (for this fund's data)
-      if (!entry.fundB || timestamp > (entry.timestamp || 0)) {
-        entry.fundB = nav;
-      }
-    });
-
-    // Convert to array, sort by year, and remove timestamp field
-    return Array.from(yearMap.values())
-      .sort((a, b) => parseInt(a.year) - parseInt(b.year))
-      .map(({ year, fundA, fundB }) => ({ year, fundA, fundB }));
-  }, [fundA.navHistory, fundB.navHistory]);
-
-  if (!chartData.length) {
-    return (
-      <div className="space-y-6">
-        <Text medium sm className="font-serif">
-          Nav History
-        </Text>
-        <div className="text-muted-foreground text-sm">
-          No NAV history data available
-        </div>
-      </div>
+    return Array.from(dataMap.values()).sort(
+      (a, b) => parseInt(a.year) - parseInt(b.year)
     );
-  }
+  }, [fundA.navHistory, fundB.navHistory]);
 
   return (
     <div className="space-y-10">
