@@ -68,7 +68,7 @@ const SectorDistribution = (props: { sector: Map<string, number> }) => {
         <TableHeader className="sticky top-0 z-10">
           <TableRow className="text-xs font-mono text-muted-foreground uppercase">
             <TableHead>Sector</TableHead>
-            <TableHead className="text-right">Count</TableHead>
+            <TableHead className="text-right">Holding(s)</TableHead>
           </TableRow>
         </TableHeader>
       </Table>
@@ -98,7 +98,7 @@ const HoldingsInfo = (props: HoldingsInfoProps) => {
 
   return (
     <div className="border-t pt-10 space-y-6">
-      <Text medium xs className="font-mono uppercase tracking-wider">
+      <Text sm className="font-mono uppercase tracking-wider">
         {fundName}
       </Text>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

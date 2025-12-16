@@ -21,7 +21,7 @@ const Insight = (props: InsightProps) => {
   const holdingsAnalysis = holdingAnalyzer.analyzeOverlap();
 
   return (
-    <div className="bg-muted w-full px-4 md:px-10 py-6 mx-auto space-y-4">
+    <div className="bg-background w-full px-4 md:px-10 py-6 mx-auto space-y-4">
       <Text lg className="font-serif" medium>
         {app_name}
       </Text>

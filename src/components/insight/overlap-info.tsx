@@ -80,7 +80,7 @@ export function OverlapInfo(props: OverlapInfoProps) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
-        <Text medium xs className="font-mono uppercase tracking-wider">
+        <Text sm className="font-mono uppercase tracking-wider">
           Portfolio Overlap
         </Text>
       </div>

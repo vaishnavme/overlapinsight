@@ -28,14 +28,8 @@ const FundOverview = (props: FundOverviewProps) => {
     <div className="flex flex-col gap-3 py-4 border-b">
       {/* Header with fund name and color */}
       <div className="flex items-center gap-3">
-        <div
-          className="size-8 border rounded-full shrink-0"
-          style={{
-            backgroundColor: fund.hex_code,
-          }}
-        />
         <div className="flex flex-col">
-          <Text medium className="capitalize">
+          <Text medium className="capitalize font-mono">
             {fund.fund}
           </Text>
           {fund?.isin ? (
