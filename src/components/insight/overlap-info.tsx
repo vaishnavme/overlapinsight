@@ -8,6 +8,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Text } from "../ui/text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { CircleQuestionMarkIcon, InfoIcon } from "lucide-react";
 
 interface OverlapInfoProps {
   fundAName: string;
@@ -62,13 +64,27 @@ const OverlapInfo = (props: OverlapInfoProps) => {
 
   return (
     <div className="w-full">
-      <Text
-        xs
-        medium
-        className="font-mono uppercase tracking-wider text-muted-foreground"
-      >
-        Holding&apos;s Overlap
-      </Text>
+      <div className="flex items-center justify-between">
+        <Text
+          xs
+          medium
+          className="font-mono uppercase tracking-wider text-muted-foreground"
+        >
+          Holding&apos;s Overlap
+        </Text>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <InfoIcon className="size-4" />
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            <Text xs>
+              Overlap has been calculated based on common weights of stocks
+              between the funds, and not on the number of common stocks.
+            </Text>
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
       <ChartContainer config={chartConfig} className="max-h-64">
         <PieChart>
