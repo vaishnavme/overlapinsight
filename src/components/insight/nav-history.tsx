@@ -105,7 +105,11 @@ const NavHistory = (props: NavHistoryProps) => {
 
   return (
     <div className="space-y-10">
-      <Text sm className="font-mono uppercase tracking-wider">
+      <Text
+        xs
+        medium
+        className="font-mono uppercase tracking-wider text-muted-foreground"
+      >
         Nav History
       </Text>
       <ChartContainer config={chartConfig}>

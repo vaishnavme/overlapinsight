@@ -61,7 +61,11 @@ const OverlapInfo = (props: OverlapInfoProps) => {
 
   return (
     <div className="w-full">
-      <Text sm className="font-mono uppercase tracking-wider">
+      <Text
+        xs
+        medium
+        className="font-mono uppercase tracking-wider text-muted-foreground"
+      >
         Holding&apos;s Overlap
       </Text>
 
