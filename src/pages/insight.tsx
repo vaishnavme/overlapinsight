@@ -53,7 +53,7 @@ const Insight = (props: InsightProps) => {
         <div className="pt-5 flex flex-col gap-4 sm:flex-row items-start justify-between">
           <Link href={process.env.NEXT_PUBLIC_FE_URL!}>
             <Text xs medium className="font-mono text-muted-foreground mb-2">
-              overlapinsight.com
+              {process.env.NEXT_PUBLIC_FE_URL?.replace("https://", "")}
             </Text>
           </Link>
           <Text xs className="font-mono text-muted-foreground max-w-sm">
