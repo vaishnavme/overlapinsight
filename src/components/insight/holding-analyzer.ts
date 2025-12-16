@@ -54,11 +54,42 @@ class HoldingAnalyzer {
     return sector;
   }
 
+  private overallHoldingStats(
+    holdingsA: Record<string, HoldingProps>,
+    holdingsB: Record<string, HoldingProps>
+  ) {
+    const holdingACount = Object.keys(holdingsA).length;
+    const holdingBCount = Object.keys(holdingsB).length;
+
+    const commonHoldings = Object.keys(holdingsA).filter((key) =>
+      holdingsB.hasOwnProperty(key)
+    );
+    const commonHoldingCount = commonHoldings.length;
+
+    const uniqueHoldingsA = holdingACount - commonHoldingCount;
+    const uniqueHoldingsB = holdingBCount - commonHoldingCount;
+
+    return {
+      holdingACount,
+      holdingBCount,
+      uniqueHoldingsA,
+      uniqueHoldingsB,
+      commonHoldingCount,
+    };
+  }
+
   public analyzeOverlap(): {
     holdingsA: Record<string, HoldingProps>;
     holdingsB: Record<string, HoldingProps>;
     sectorA: Map<string, number>;
     sectorB: Map<string, number>;
+    holdingStats: {
+      holdingACount: number;
+      holdingBCount: number;
+      uniqueHoldingsA: number;
+      uniqueHoldingsB: number;
+      commonHoldingCount: number;
+    };
   } {
     const holdingsA = this.remapHoldings(this.fundA.holdings);
     const holdingsB = this.remapHoldings(this.fundB.holdings);
@@ -66,11 +97,14 @@ class HoldingAnalyzer {
     const sectorA = this.findSectorDistribution(holdingsA);
     const sectorB = this.findSectorDistribution(holdingsB);
 
+    const holdingStats = this.overallHoldingStats(holdingsA, holdingsB);
+
     return {
       holdingsA,
       holdingsB,
       sectorA,
       sectorB,
+      holdingStats,
     };
   }
 }

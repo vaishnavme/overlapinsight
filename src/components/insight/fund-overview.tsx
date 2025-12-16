@@ -14,7 +14,7 @@ const LabelValuePair = (props: { label: string; value: string | number }) => {
       <Text xs className="text-muted-foreground font-mono">
         {label}
       </Text>
-      <Text xs medium>
+      <Text xs medium className="capitalize">
         {value}
       </Text>
     </div>

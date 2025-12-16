@@ -25,11 +25,11 @@ const getChartConfig = (
   const chartConfig = {
     fundA: {
       label: fundA.fund,
-      color: "var(--color-blue-600)",
+      color: "var(--color-blue-400)",
     },
     fundB: {
       label: fundB.fund,
-      color: "var(--color-blue-400)",
+      color: "var(--color-blue-600)",
     },
   } satisfies ChartConfig;
 
@@ -104,7 +104,7 @@ const NavHistory = (props: NavHistoryProps) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       <Text sm className="font-mono uppercase tracking-wider">
         Nav History
       </Text>

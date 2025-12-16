@@ -30,8 +30,12 @@ const Insight = (props: InsightProps) => {
           <FundOverview fund={fundA} />
           <FundOverview fund={fundB} />
         </div>
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <OverlapInfo fundA={fundA} fundB={fundB} />
+        <div className="w-full grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-4">
+          <OverlapInfo
+            fundAName={fundA.fund}
+            fundBName={fundB.fund}
+            holdingStats={holdingsAnalysis.holdingStats}
+          />
           <NavHistory fundA={fundA} fundB={fundB} />
         </div>
         <HoldingsInfo
