@@ -71,6 +71,8 @@ class HoldingAnalyzer {
 
     const uniqueHoldingsA = holdingACount - commonHoldingCount;
     const uniqueHoldingsB = holdingBCount - commonHoldingCount;
+    const totalOverlapPercentage =
+      commonHoldingCount / Math.min(holdingACount, holdingBCount);
 
     return {
       holdingACount,
@@ -78,6 +80,7 @@ class HoldingAnalyzer {
       uniqueHoldingsA,
       uniqueHoldingsB,
       commonHoldingCount,
+      totalOverlapPercentage,
     };
   }
 
@@ -92,6 +95,7 @@ class HoldingAnalyzer {
       uniqueHoldingsA: number;
       uniqueHoldingsB: number;
       commonHoldingCount: number;
+      totalOverlapPercentage: number;
     };
   } {
     const holdingsA = this.remapHoldings(this.fundA.holdings);
