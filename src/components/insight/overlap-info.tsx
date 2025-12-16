@@ -119,8 +119,7 @@ const OverlapInfo = (props: OverlapInfoProps) => {
                         y={viewBox.cy}
                         className="fill-foreground text-xl font-mono font-semibold"
                       >
-                        {(holdingStats.totalOverlapPercentage * 100).toFixed(2)}
-                        %
+                        {holdingStats.totalOverlapPercentage.toFixed(2)}%
                       </tspan>
                       <tspan
                         x={viewBox.cx}

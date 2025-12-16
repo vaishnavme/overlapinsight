@@ -50,7 +50,6 @@ const getNavHistoryData = (navHistory: ShortFundData["navHistory"]) => {
       yearMap.set(year, { year, nav, timestamp });
     }
     const entry = yearMap.get(year)!;
-    console.log(entry);
 
     if (!entry?.timestamp || timestamp > entry?.timestamp) {
       entry.timestamp = timestamp;

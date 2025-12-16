@@ -20,12 +20,29 @@ class HoldingAnalyzer {
     this.fundB = fundB;
   }
 
+  private normalizeCompanyName(name: string): string {
+    return (
+      name
+        .toLowerCase()
+        .trim()
+        // Remove common company suffixes and variations
+        .replace(
+          /\s+(ltd\.?|limited|inc\.?|incorporated|corp\.?|corporation|pvt\.?|private|llc|llp)\s*$/i,
+          ""
+        )
+        // Remove extra spaces and special characters
+        .replace(/[^\w\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+    );
+  }
+
   private remapHoldings(
     holdings: ShortFundData["holdings"]
   ): Record<string, HoldingProps> {
     return (
       holdings?.reduce((acc, curr) => {
-        const nameKey: string = curr[1].toLowerCase().trim();
+        const nameKey: string = this.normalizeCompanyName(curr[1]);
         acc[nameKey] = {
           name: curr[1],
           sector: curr[2],
@@ -54,6 +71,26 @@ class HoldingAnalyzer {
     return sector;
   }
 
+  private overlapWeightage(
+    holdingsA: Record<string, HoldingProps>,
+    holdingsB: Record<string, HoldingProps>
+  ) {
+    let totalOverlapPercentage = 0;
+
+    // Calculate weighted overlap by summing minimum weights of common holdings
+    for (const key of Object.keys(holdingsA)) {
+      if (holdingsB.hasOwnProperty(key)) {
+        // Take the minimum weight for each overlapping holding
+        const minWeight = Math.min(
+          holdingsA[key].percentage,
+          holdingsB[key].percentage
+        );
+        totalOverlapPercentage += minWeight;
+      }
+    }
+    return totalOverlapPercentage;
+  }
+
   private overallHoldingStats(
     holdingsA: Record<string, HoldingProps>,
     holdingsB: Record<string, HoldingProps>
@@ -63,6 +100,7 @@ class HoldingAnalyzer {
 
     let commonHoldingCount = 0;
 
+    // Count common holdings
     for (const key of Object.keys(holdingsA)) {
       if (holdingsB.hasOwnProperty(key)) {
         commonHoldingCount++;
@@ -71,8 +109,12 @@ class HoldingAnalyzer {
 
     const uniqueHoldingsA = holdingACount - commonHoldingCount;
     const uniqueHoldingsB = holdingBCount - commonHoldingCount;
-    const totalOverlapPercentage =
-      commonHoldingCount / Math.min(holdingACount, holdingBCount);
+
+    // Calculate weighted overlap percentage
+    const weightedOverlapPercentage = this.overlapWeightage(
+      holdingsA,
+      holdingsB
+    );
 
     return {
       holdingACount,
@@ -80,7 +122,7 @@ class HoldingAnalyzer {
       uniqueHoldingsA,
       uniqueHoldingsB,
       commonHoldingCount,
-      totalOverlapPercentage,
+      totalOverlapPercentage: weightedOverlapPercentage,
     };
   }
 
