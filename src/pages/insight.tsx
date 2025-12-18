@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import FundOverview from "@/components/insight/fund-overview";
@@ -11,6 +10,7 @@ import OverlapInfo from "@/components/insight/overlap-info";
 import HoldingsInfo from "@/components/insight/holdings-info";
 import holdingAnalyzer from "@/components/insight/holding-analyzer";
 import MoreOptions from "@/components/insight/more-options";
+import SEO from "@/components/ui/seo";
 
 interface InsightProps {
   fundA: ShortFundData;
@@ -24,13 +24,11 @@ const Insight = (props: InsightProps) => {
 
   return (
     <>
-      <Head>
-        <title>{`${fundA.fund} vs ${fundB.fund} | ${app_name}`}</title>
-        <meta
-          name="description"
-          content={`Compare ${fundA.fund} and ${fundB.fund} based on their holdings overlap, NAV history, and sector distribution. Get insights into unique and common investments between the two funds.`}
-        />
-      </Head>
+      <SEO
+        title={`${fundA.fund} vs ${fundB.fund} | ${app_name}`}
+        description={`Compare ${fundA.fund} vs ${fundB.fund} overlap, NAV history, sector distribution. Get insights on common investments.`}
+      />
+
       <div className="relative">
         <div className="absolute right-6 top-6">
           <MoreOptions
