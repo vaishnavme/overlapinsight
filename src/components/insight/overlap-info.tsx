@@ -74,7 +74,7 @@ const OverlapInfo = (props: OverlapInfoProps) => {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <InfoIcon className="size-4" />
+            <InfoIcon className="size-4 text-muted-foreground" />
           </TooltipTrigger>
           <TooltipContent className="max-w-xs">
             <Text xs>

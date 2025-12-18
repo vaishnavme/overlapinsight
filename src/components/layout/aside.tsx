@@ -60,7 +60,7 @@ const Aside = () => {
             }
           />
         </div>
-        <Button size="lg" type="submit" variant="primary" className="w-full">
+        <Button size="lg" type="submit" className="w-full">
           <SearchIcon />
           Find overlap
         </Button>
