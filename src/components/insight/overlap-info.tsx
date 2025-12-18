@@ -51,17 +51,20 @@ const OverlapInfo = (props: OverlapInfoProps) => {
     {
       key: "common",
       value: weightedOverlapPercentage,
-      fill: "var(--color-blue-400)",
+      fill: "var(--color-red-300)",
+      stroke: "var(--color-red-300)",
     },
     {
       key: "fundA",
       value: holdingStats.weightedUniqueA,
-      fill: "var(--color-blue-500)",
+      fill: "var(--color-emerald-400)",
+      stroke: "var(--color-emerald-400)",
     },
     {
       key: "fundB",
       value: holdingStats.weightedUniqueB,
-      fill: "var(--color-blue-700)",
+      fill: "var(--color-orange-300)",
+      stroke: "var(--color-orange-300)",
     },
   ];
 
@@ -122,6 +125,7 @@ const OverlapInfo = (props: OverlapInfoProps) => {
             innerRadius={60}
             outerRadius={80}
             paddingAngle={5}
+            fillOpacity={0.6}
           >
             <Label
               content={({ viewBox }) => {

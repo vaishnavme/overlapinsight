@@ -23,11 +23,11 @@ const getChartConfig = (
   const chartConfig = {
     fundA: {
       label: fundA.fund,
-      color: "var(--color-blue-400)",
+      color: "var(--color-emerald-400)",
     },
     fundB: {
       label: fundB.fund,
-      color: "var(--color-blue-600)",
+      color: "var(--color-orange-300)",
     },
   } satisfies ChartConfig;
 

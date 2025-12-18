@@ -21,7 +21,7 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_FE_URL} />
       </Head>
-      <body className="antialiased">
+      <body>
         <Main />
         <NextScript />
       </body>
