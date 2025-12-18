@@ -9,7 +9,7 @@ import { ShortFundData } from "@/lib/global.types";
 import fundService from "@/service/fund.service";
 import OverlapInfo from "@/components/insight/overlap-info";
 import HoldingsInfo from "@/components/insight/holdings-info";
-import HoldingAnalyzer from "@/components/insight/holding-analyzer";
+import holdingAnalyzer from "@/components/insight/holding-analyzer";
 
 interface InsightProps {
   fundA: ShortFundData;
@@ -19,8 +19,7 @@ interface InsightProps {
 const Insight = (props: InsightProps) => {
   const { fundA, fundB } = props;
 
-  const holdingAnalyzer = new HoldingAnalyzer(fundA, fundB);
-  const holdingsAnalysis = holdingAnalyzer.analyzeOverlap();
+  const holdingsAnalysis = holdingAnalyzer.analyzeHoldings(fundA, fundB);
 
   return (
     <>
@@ -45,6 +44,9 @@ const Insight = (props: InsightProps) => {
               fundAName={fundA.fund}
               fundBName={fundB.fund}
               holdingStats={holdingsAnalysis.holdingStats}
+              weightedOverlapPercentage={
+                holdingsAnalysis.weightedOverlapPercentage
+              }
             />
             <NavHistory fundA={fundA} fundB={fundB} />
           </div>

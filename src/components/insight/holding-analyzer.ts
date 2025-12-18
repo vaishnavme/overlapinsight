@@ -8,18 +8,6 @@ interface HoldingProps {
 }
 
 class HoldingAnalyzer {
-  private fundA;
-  private fundB;
-
-  constructor(fundA: ShortFundData, fundB: ShortFundData) {
-    if (!fundA.holdings || !fundB.holdings) {
-      throw new Error("Both funds must have holdings data to analyze overlap.");
-    }
-
-    this.fundA = fundA;
-    this.fundB = fundB;
-  }
-
   private normalizeCompanyName(name: string): string {
     return (
       name
@@ -71,6 +59,42 @@ class HoldingAnalyzer {
     return sector;
   }
 
+  getHoldingStats(
+    holdingsA: Record<string, HoldingProps>,
+    holdingsB: Record<string, HoldingProps>
+  ) {
+    const holdingACount = Object.keys(holdingsA).length;
+    const holdingBCount = Object.keys(holdingsB).length;
+
+    let commonHoldingCount = 0;
+    let weightedUniqueA = 0;
+    let weightedUniqueB = 0;
+
+    for (const key of Object.keys(holdingsA)) {
+      if (holdingsB.hasOwnProperty(key)) {
+        commonHoldingCount++;
+      } else {
+        weightedUniqueA += holdingsA[key].percentage;
+      }
+    }
+
+    for (const key of Object.keys(holdingsB)) {
+      if (!holdingsA.hasOwnProperty(key)) {
+        weightedUniqueB += holdingsB[key].percentage;
+      }
+    }
+
+    return {
+      holdingACount,
+      holdingBCount,
+      uniqueHoldingsA: holdingACount - commonHoldingCount,
+      uniqueHoldingsB: holdingBCount - commonHoldingCount,
+      weightedUniqueA,
+      weightedUniqueB,
+      commonHoldingCount,
+    };
+  }
+
   private overlapWeightage(
     holdingsA: Record<string, HoldingProps>,
     holdingsB: Record<string, HoldingProps>
@@ -91,62 +115,23 @@ class HoldingAnalyzer {
     return totalOverlapPercentage;
   }
 
-  private overallHoldingStats(
-    holdingsA: Record<string, HoldingProps>,
-    holdingsB: Record<string, HoldingProps>
-  ) {
-    const holdingACount = Object.keys(holdingsA).length;
-    const holdingBCount = Object.keys(holdingsB).length;
-
-    let commonHoldingCount = 0;
-
-    // Count common holdings
-    for (const key of Object.keys(holdingsA)) {
-      if (holdingsB.hasOwnProperty(key)) {
-        commonHoldingCount++;
-      }
+  public analyzeHoldings(fundA: ShortFundData, fundB: ShortFundData) {
+    // Placeholder logic for analyzing holdings overlap
+    if (!fundA.holdings || !fundB.holdings) {
+      throw new Error("Both funds must have holdings data to analyze overlap.");
     }
 
-    const uniqueHoldingsA = holdingACount - commonHoldingCount;
-    const uniqueHoldingsB = holdingBCount - commonHoldingCount;
-
-    // Calculate weighted overlap percentage
-    const weightedOverlapPercentage = this.overlapWeightage(
-      holdingsA,
-      holdingsB
-    );
-
-    return {
-      holdingACount,
-      holdingBCount,
-      uniqueHoldingsA,
-      uniqueHoldingsB,
-      commonHoldingCount,
-      totalOverlapPercentage: weightedOverlapPercentage,
-    };
-  }
-
-  public analyzeOverlap(): {
-    holdingsA: Record<string, HoldingProps>;
-    holdingsB: Record<string, HoldingProps>;
-    sectorA: Map<string, number>;
-    sectorB: Map<string, number>;
-    holdingStats: {
-      holdingACount: number;
-      holdingBCount: number;
-      uniqueHoldingsA: number;
-      uniqueHoldingsB: number;
-      commonHoldingCount: number;
-      totalOverlapPercentage: number;
-    };
-  } {
-    const holdingsA = this.remapHoldings(this.fundA.holdings);
-    const holdingsB = this.remapHoldings(this.fundB.holdings);
+    const holdingsA = this.remapHoldings(fundA.holdings);
+    const holdingsB = this.remapHoldings(fundB.holdings);
 
     const sectorA = this.findSectorDistribution(holdingsA);
     const sectorB = this.findSectorDistribution(holdingsB);
 
-    const holdingStats = this.overallHoldingStats(holdingsA, holdingsB);
+    const holdingStats = this.getHoldingStats(holdingsA, holdingsB);
+    const weightedOverlapPercentage = this.overlapWeightage(
+      holdingsA,
+      holdingsB
+    );
 
     return {
       holdingsA,
@@ -154,8 +139,11 @@ class HoldingAnalyzer {
       sectorA,
       sectorB,
       holdingStats,
+      weightedOverlapPercentage,
     };
   }
 }
 
-export default HoldingAnalyzer;
+const holdingAnalyzer = new HoldingAnalyzer();
+
+export default holdingAnalyzer;

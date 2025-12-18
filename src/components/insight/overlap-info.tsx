@@ -1,3 +1,4 @@
+import { InfoIcon } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
 import {
   ChartContainer,
@@ -9,18 +10,19 @@ import {
 } from "@/components/ui/chart";
 import { Text } from "../ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { CircleQuestionMarkIcon, InfoIcon } from "lucide-react";
 
 interface OverlapInfoProps {
   fundAName: string;
   fundBName: string;
+  weightedOverlapPercentage: number;
   holdingStats: {
     holdingACount: number;
     holdingBCount: number;
     uniqueHoldingsA: number;
     uniqueHoldingsB: number;
-    totalOverlapPercentage: number;
     commonHoldingCount: number;
+    weightedUniqueA: number;
+    weightedUniqueB: number;
   };
 }
 
@@ -40,24 +42,25 @@ const getChartConfig = (fundAName: string, fundBName: string): ChartConfig => ({
 });
 
 const OverlapInfo = (props: OverlapInfoProps) => {
-  const { fundAName, fundBName, holdingStats } = props;
+  const { fundAName, fundBName, holdingStats, weightedOverlapPercentage } =
+    props;
 
   const chartConfig = getChartConfig(fundAName, fundBName);
 
   const chartData = [
     {
       key: "common",
-      value: holdingStats.commonHoldingCount,
+      value: weightedOverlapPercentage,
       fill: "var(--color-blue-400)",
     },
     {
       key: "fundA",
-      value: holdingStats.uniqueHoldingsA,
+      value: holdingStats.weightedUniqueA,
       fill: "var(--color-blue-500)",
     },
     {
       key: "fundB",
-      value: holdingStats.uniqueHoldingsB,
+      value: holdingStats.weightedUniqueB,
       fill: "var(--color-blue-700)",
     },
   ];
@@ -102,7 +105,7 @@ const OverlapInfo = (props: OverlapInfoProps) => {
                       />
                       <Text xs>{config?.label || name}:</Text>
                       <Text xs className="font-mono font-medium">
-                        {value}
+                        {typeof value === "number" ? value.toFixed(2) : value}%
                       </Text>
                     </div>,
                   ];
@@ -135,7 +138,7 @@ const OverlapInfo = (props: OverlapInfoProps) => {
                         y={viewBox.cy}
                         className="fill-foreground text-xl font-mono font-semibold"
                       >
-                        {holdingStats.totalOverlapPercentage.toFixed(2)}%
+                        {weightedOverlapPercentage.toFixed(2)}%
                       </tspan>
                       <tspan
                         x={viewBox.cx}
