@@ -24,7 +24,7 @@ const SEO = (props: SEOProps) => {
     canonical = process.env.NEXT_PUBLIC_FE_URL,
     keywords = "mutual fund overlap, portfolio overlap, fund comparison, mutual fund analyzer, investment overlap calculator, fund holdings, portfolio diversification",
     author = app_name,
-    image = `${process.env.NEXT_PUBLIC_FE_URL}/og-image.jpg`,
+    image = `${process.env.NEXT_PUBLIC_FE_URL}/og-image.png`,
     imageAlt = "OverlapInsight - Mutual Fund Overlap Calculator",
     type = "website",
     noIndex = false,
