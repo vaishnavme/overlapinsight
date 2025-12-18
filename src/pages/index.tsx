@@ -1,21 +1,14 @@
-import Head from "next/head";
 import { Text } from "@/components/ui/text";
-import { app_name } from "@/lib/constants";
+import SEO from "@/components/ui/seo";
 
 const Home = () => (
   <>
-    <Head>
-      <title>{`${app_name} - Mutual Fund Overlap Calculator`}</title>
-      <meta
-        name="description"
-        content="Analyze mutual fund overlap and common holdings between schemes. Compare fund portfolios, avoid over-diversification and make smarter investment decisions with our free overlap calculator tool."
-      />
-    </Head>
+    <SEO />
 
     <div className="bg-muted w-full lg:h-[calc(100vh-48px)] px-4 md:px-10 py-6 mx-auto space-y-8">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
-        <Text xxl className="font-serif" medium render={<h1 />}>
+        <Text xxl className="font-serif" medium>
           Mutual Fund Overlap Calculator
         </Text>
         <Text className="text-muted-foreground max-w-2xl mx-auto">
