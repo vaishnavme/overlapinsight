@@ -1,11 +1,8 @@
-import { ShortFundData } from "@/lib/global.types";
-
-interface HoldingProps {
-  name: string;
-  sector: string;
-  investmentType: string;
-  percentage: number;
-}
+import {
+  HoldingRecords,
+  HoldingStats,
+  ShortFundData,
+} from "@/lib/global.types";
 
 class HoldingAnalyzer {
   private normalizeCompanyName(name: string): string {
@@ -25,9 +22,7 @@ class HoldingAnalyzer {
     );
   }
 
-  private remapHoldings(
-    holdings: ShortFundData["holdings"]
-  ): Record<string, HoldingProps> {
+  private remapHoldings(holdings: ShortFundData["holdings"]): HoldingRecords {
     return (
       holdings?.reduce((acc, curr) => {
         const nameKey: string = this.normalizeCompanyName(curr[1]);
@@ -38,12 +33,12 @@ class HoldingAnalyzer {
           percentage: curr[5],
         };
         return acc;
-      }, {} as Record<string, HoldingProps>) || {}
+      }, {} as HoldingRecords) || {}
     );
   }
 
   private findSectorDistribution(
-    holdings: Record<string, HoldingProps>
+    holdings: HoldingRecords
   ): Map<string, number> {
     const sector = new Map<string, number>();
 
@@ -60,9 +55,9 @@ class HoldingAnalyzer {
   }
 
   getHoldingStats(
-    holdingsA: Record<string, HoldingProps>,
-    holdingsB: Record<string, HoldingProps>
-  ) {
+    holdingsA: HoldingRecords,
+    holdingsB: HoldingRecords
+  ): HoldingStats {
     const holdingACount = Object.keys(holdingsA).length;
     const holdingBCount = Object.keys(holdingsB).length;
 
@@ -96,9 +91,9 @@ class HoldingAnalyzer {
   }
 
   private overlapWeightage(
-    holdingsA: Record<string, HoldingProps>,
-    holdingsB: Record<string, HoldingProps>
-  ) {
+    holdingsA: HoldingRecords,
+    holdingsB: HoldingRecords
+  ): number {
     let totalOverlapPercentage = 0;
 
     // Calculate weighted overlap by summing minimum weights of common holdings
@@ -115,7 +110,17 @@ class HoldingAnalyzer {
     return totalOverlapPercentage;
   }
 
-  public analyzeHoldings(fundA: ShortFundData, fundB: ShortFundData) {
+  public analyzeHoldings(
+    fundA: ShortFundData,
+    fundB: ShortFundData
+  ): {
+    holdingsA: HoldingRecords;
+    holdingsB: HoldingRecords;
+    sectorA: Map<string, number>;
+    sectorB: Map<string, number>;
+    holdingStats: HoldingStats;
+    weightedOverlapPercentage: number;
+  } {
     // Placeholder logic for analyzing holdings overlap
     if (!fundA.holdings || !fundB.holdings) {
       throw new Error("Both funds must have holdings data to analyze overlap.");

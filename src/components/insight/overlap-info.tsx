@@ -10,20 +10,13 @@ import {
 } from "@/components/ui/chart";
 import { Text } from "../ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { HoldingStats } from "@/lib/global.types";
 
 interface OverlapInfoProps {
   fundAName: string;
   fundBName: string;
   weightedOverlapPercentage: number;
-  holdingStats: {
-    holdingACount: number;
-    holdingBCount: number;
-    uniqueHoldingsA: number;
-    uniqueHoldingsB: number;
-    commonHoldingCount: number;
-    weightedUniqueA: number;
-    weightedUniqueB: number;
-  };
+  holdingStats: HoldingStats;
 }
 
 const getChartConfig = (fundAName: string, fundBName: string): ChartConfig => ({

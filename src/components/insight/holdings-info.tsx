@@ -1,3 +1,4 @@
+import { HoldingRecords } from "@/lib/global.types";
 import { ScrollArea } from "../ui/scroll-area";
 import {
   Table,
@@ -9,21 +10,14 @@ import {
 } from "../ui/table";
 import { Text } from "../ui/text";
 
-interface HoldingItem {
-  name: string;
-  sector: string;
-  investmentType: string;
-  percentage: number;
-}
-
 interface HoldingsInfoProps {
-  holdings: Record<string, HoldingItem>;
+  holdings: HoldingRecords;
   sector: Map<string, number>;
   fundName: string;
 }
 
 interface HoldingsListProps {
-  holdings: Record<string, HoldingItem>;
+  holdings: HoldingRecords;
 }
 
 const HoldingsList = (props: HoldingsListProps) => {

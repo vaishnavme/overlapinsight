@@ -25,3 +25,22 @@ export interface ShortFundData {
     [string, string, string, string, number, number, number, string]
   >;
 }
+
+export interface HoldingStats {
+  holdingACount: number;
+  holdingBCount: number;
+  uniqueHoldingsA: number;
+  uniqueHoldingsB: number;
+  commonHoldingCount: number;
+  weightedUniqueA: number;
+  weightedUniqueB: number;
+}
+
+export interface HoldingProps {
+  name: string;
+  sector: string;
+  investmentType: string;
+  percentage: number;
+}
+
+export type HoldingRecords = Record<string, HoldingProps>;
