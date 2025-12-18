@@ -25,7 +25,10 @@ const MoreOptions = (props: MoreOptionsProps) => {
 
     setDownloading(true);
 
-    domToPng(element)
+    domToPng(element, {
+      quality: 1,
+      scale: 2,
+    })
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.download = fileName;
