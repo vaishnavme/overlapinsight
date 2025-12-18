@@ -48,7 +48,7 @@ const SEO = (props: SEOProps) => {
       <meta name="robots" content={robotsContent} />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
-      <meta name="theme-color" content="#1e40af" />
+      <meta name="theme-color" content="#ffb900" />
 
       {/* Canonical URL */}
       {canonical && <link rel="canonical" href={canonical} />}
