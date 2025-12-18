@@ -1,4 +1,5 @@
 import { domToPng } from "modern-screenshot";
+import { useState } from "react";
 import {
   FileTextIcon,
   FullscreenIcon,
@@ -8,7 +9,6 @@ import {
 import { Button } from "../ui/button";
 import { Menu, MenuItem, MenuPopup, MenuTrigger } from "../ui/menu";
 import { Text } from "../ui/text";
-import { useState } from "react";
 
 interface MoreOptionsProps {
   fileName: string;
@@ -18,6 +18,60 @@ const MoreOptions = (props: MoreOptionsProps) => {
   const { fileName } = props;
 
   const [downloading, setDownloading] = useState<boolean>(false);
+
+  const downloadPDF = async () => {
+    const element = document.getElementById("insight-page");
+    if (!element) return;
+
+    const imageDataUrl = await domToPng(element, {
+      quality: 1,
+      scale: 2,
+    });
+
+    const iframe = document.createElement("iframe");
+
+    iframe.style.position = "fixed";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "0";
+
+    iframe.srcdoc = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          @page {
+            size: A4;
+            margin: 0;
+          }
+          body {
+            margin: 0;
+          }
+          img {
+            width: 100%;
+            height: auto;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${imageDataUrl}" />
+      </body>
+    </html>
+  `;
+
+    document.body.appendChild(iframe);
+
+    iframe.onload = () => {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+      }
+
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    };
+  };
 
   const downloadScreenshot = () => {
     const element = document.getElementById("insight-page");
@@ -39,6 +93,7 @@ const MoreOptions = (props: MoreOptionsProps) => {
         setDownloading(false);
       });
   };
+
   return (
     <div>
       <Menu>
@@ -55,7 +110,7 @@ const MoreOptions = (props: MoreOptionsProps) => {
 
             <Text xs>Screenshot</Text>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={downloadPDF}>
             <FileTextIcon />
             <Text xs>Download PDF</Text>
           </MenuItem>
