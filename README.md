@@ -1,6 +1,7 @@
-<img src="./public/overlapinsight.png" width="40" style="display: block; margin-left: auto; margin-right: auto;" alt="OverlapInsight">
-
-# OverlapInsight
+<h1 style="display: flex; align-items: center; justify-content: start; gap: 12px;">
+  <img src="./public/overlapinsight.png" width="40" alt="OverlapInsight" />
+  OverlapInsight
+</h1>
 
 Analyze mutual fund overlap and common holdings.
 Compare portfolios to avoid over-diversification with free tool.
